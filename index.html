@@ -13,6 +13,7 @@
 
     </header>
     
+    <!-- 要記得放在 id="app"裡面才會執行 -->
     <div id="app">
         <input type="text" v-model="msg">
         <h3>{{ msg }}</h3>
@@ -32,6 +33,23 @@
             }
         }) 
         app.mount("#app")
+
+        const names = ["Jack","Mary","Tom"];
+        const todos =[
+                        {"id": 1, "title": "作業1", "completed": false },
+                        {"id": 2, "title": "作業2", "completed": true },
+                        {"id": 3, "title": "作業3", "completed": false },
+                    ];
+    //   for(let i=0,max=names.length;i<max;i++){
+
+    //   }
+    //   for(name in names){
+
+    //   }
+    todos.forEach((todo, i)=>{
+        console.log(i) //name
+        console.log(todo.title) //0 1 2
+        })
     </script>
 
 </body>
