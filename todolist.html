@@ -27,9 +27,12 @@
             <div class="col-3"></div>
             <div class="col-6">
                 <h3>Todos</h3>
-                <!-- 雙向繫節 v-model="newTodo" -->
+
+                <!-- 雙向繫節的指令 v-model="newTodo("以號裡面要放和下方一樣")" -->
                 <!-- v-on:keyup = @keyup  @keyup.enter="addTodo(下方的屬性名稱)" (按下enter才會執行) -->
+
                 <input type="text" v-model="newTodo" @keyup.enter="addTodo" class="form-control" autofocus autocomplete="off" placeholder="想要做甚麼?">
+
                 <ul class="list-group mt-3">
                     <!--  v-for="todo in todos" todo=自己命名的 in=保留字固定不動 todos=下方跑陣列的屬性名稱 -->
 
@@ -37,14 +40,21 @@
                     <div v-for="(value, key) in object"></div>
                     <div v-for="(value, name, index) in object"></div> --> 
 
-                    <!-- v-for="(todo, i(i是index 自己命)) = v-for="(item, index) -->
+                    <!-- v-for="(item, index)  -->
+                    <!-- 
+                        v-for="(todo(是指下方{"id": 1, "title": "作業1", "completed": true }的value), 
+                        i(i是index (是指下方{"id": 1, "title": "作業1", "completed": true }的位置 0 1 2 3...) 
+                        -->
+                    <!-- :key="i"  :key="item.id"(物件裡面的id的屬性來看待，不是字串)   只要看到v- : 就是vue的寫法 -->
                     <li v-for="(todo, i) in todos" class="list-group-item" :key="i">
+                        <!--  -->
                         <div class="d-flex justify-content-between">
                             <div>
                                 <input v-model="todo.completed" class="form-check-input me-3" type="checkbox">
                                 <!--{css class名稱:Boolean}-->
                                 <!--如果Boolean為true表示要用套用css class的樣式-->
                                 <!-- 如果要重複用class 要用{}包起來 -->
+                                <!-- todo.title 不能加"" -->
                                 <label :class="{completed:todo.completed}" class="form-check-label">{{i}} - {{ todo.title }}</label>
                                 <!-- 上方的命名todo  -->
                             </div>
@@ -65,12 +75,15 @@
 
     <script>
         //Vue的起手式
+        //透過createApp函式(function)建立vue的物件 reateApp()只是vue裡面其中一個函式
         const {createApp} = Vue //V記得要大寫 
         const app = createApp({
             data(){
                 return{
+                    // data裡面放的是網頁的資料，要return給上方的HTML用
+                    
                     todos:JSON.parse(localStorage.getItem("todos") || "[]" ),
-                    // JSON轉型 如果讀不出資料就為空陣列
+                    // JSON轉型 如果讀不出資料就為空陣列[]
 
 
                     //todos:[] 陣列
@@ -82,12 +95,14 @@
                     newTodo:" " //空字串
                 }
             },
+            // methods:{} 是一個方法(屬性)，可以設計多個方法
             methods:{
                 addTodo(){
                     //console.log(this.newTodo)
                     //true && 程式會執行 => true
                     //false && 程式沒有執行的需要 => false
                     //false && false => false
+                    //.trim() 去掉空格
                     const value = this.newTodo && this.newTodo.trim();
                     if(!value){
                         return;
@@ -95,7 +110,7 @@
                     this.todos.push({
                         "id":this.todos.length+1,"title":value, "completed":false
                     });
-                    this.newTodo=""   //this.newTodo=""執行完就清空(上方的input)
+                    this.newTodo=""   //this.newTodo=""input輸入完執行完就清空(HTML的input)
                 },
                 removeTodo(item){
                 //  console.log(index)
@@ -139,7 +154,9 @@
                 }
             }
         }) 
-        app.mount("#app")
+        app.mount("#app") 
+        //使用mounth()方式，綁定vue管理的HTML範圍
+        //#app是vue的物件 id="app"
 
         console.log(localStorage.getItem("key1"))
     </script>
